@@ -79,12 +79,14 @@ All of them are described in [their c file][44ku0112] and all have corresponding
 [examples][55ku0123]. Few of them are related to persistent memory:
 
 **libpmem**
+
 This engine reads/writes data using libpmem library. Works on a namespace
 created in `fsdax` mode. Full example workload for generating traffic of
 sequential reads using this engine can be found [here][fiolibPM]. There are
 additional comments within the jobfile to explain specific parameters.
 
 **dev-dax**
+
 It also uses libpmem library, but as the name suggest it is specified to work
 with device-dax devices. Our full example workload [DaxSeqR.fio][fiodevDX]
 shows how to properly use FIO with /dev/dax. Since we don't work on a "regular"
@@ -96,6 +98,7 @@ part over and over (using different threads on the same space) it ends up not
 reading from the device.
 
 **pmemblk**
+
 This engine is using libpmemblk library. Results delivered by this engine will
 not show you the best performance of your hardware, only what this specific
 library is capable of. While using this engine, `blocksize` and
@@ -111,6 +114,7 @@ parameter "bs" and "size" (see commented part above). Full example workload
 doing traffic of sequential reads for pmemblk can be found [here][fioPMblk].
 
 **mmap**
+
 It's the most "basic" of mentioned engines, because its purpose is just to read
 from/write to a memory mapped region. It can be used with pmem, but is not
 tailor-made. It generates traffic doing memcpy to/from memory region. Difference
@@ -120,9 +124,11 @@ Again, full example working workload is available: [MmapSeqR.fio][fioMMap1]
 
 ### Execution and results
 Command to run FIO is: `fio [options] [jobfile] ...`.
+
 Since we use workloads defined in a file (as opposed to specifying parameters
 in command line), we execute FIO with command like 
 `numactl -N 0 fio --output=my_workload.log --output-format=json my_workload.fio`.
+
 [numactl command][nctl1234] guarantees that processes are pinned to selected 
 numa node. The same can also be achieved by assigning CPU mask for FIO using 
 option `cpus_allowed`. We chose JSON format to save our results in 
