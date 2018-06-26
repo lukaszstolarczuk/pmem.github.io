@@ -14,6 +14,7 @@ we commonly use it.
 For starters, links to needed software:
 * [FIO][1fioLink]
 * [NDCTL][ndctlLnk]
+
 And, of course, to execute any FIO tests using pmem engines you need PMDK
 installed in your system.
 
@@ -76,13 +77,13 @@ FIO is generating I/O traffic using engines specific for the job. To specify
 which engine is used in a job there's workload's option `ioengine=my_engine`.
 All of them are described in [their c file][44ku0112] and all have corresponding
 [examples][55ku0123]. Few of them are related to persistent memory:
-** libpmem **
+**libpmem**
 This engine reads/writes data using libpmem library. Works on a namespace
 created in `fsdax` mode. Full example workload for generating traffic of
 sequential reads using this engine can be found [here][fiolibPM]. There are
 additional comments within the jobfile to explain specific parameters.
 
-** dev-dax **
+**dev-dax**
 It also uses libpmem library, but as the name suggest it is specified to work
 with device-dax devices. Our full example workload [DaxSeqR.fio][fiodevDX]
 shows how to properly use FIO with /dev/dax. Since we don't work on a "regular"
@@ -93,21 +94,23 @@ other and results are not cached in the processor. In case FIO reads the same
 part over and over (using different threads on the same space) it ends up not
 reading from the device.
 
-** pmemblk **
+**pmemblk**
 This engine is using libpmemblk library. Results delivered by this engine will
 not show you the best performance of your hardware, only what this specific
 library is capable of. While using this engine, `blocksize` and
 `size` of a file are given as part of `filename` option, like here:
 {% highlight ini %}
+[example]
 filename=/mnt/pmem6/testjob,512,1024000
 #size=1024000M
 #bs=512
 {% endhighlight %}
+
 This is a bit different approach, comparing with other engines which use
 parameter "bs" and "size" (see commented part above). Full example workload
 doing traffic of sequential reads for pmemblk can be found [here][fioPMblk].
 
-** mmap **
+**mmap**
 It's the most "basic" of mentioned engines, because its purpose is just to read
 from/write to a memory mapped region. It can be used with pmem, but is not
 tailor-made. It generates traffic doing memcpy to/from memory region. Difference
