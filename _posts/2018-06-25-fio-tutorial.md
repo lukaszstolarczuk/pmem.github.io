@@ -77,6 +77,7 @@ FIO is generating I/O traffic using engines specific for the job. To specify
 which engine is used in a job there's workload's option `ioengine=my_engine`.
 All of them are described in [their c file][44ku0112] and all have corresponding
 [examples][55ku0123]. Few of them are related to persistent memory:
+
 **libpmem**
 This engine reads/writes data using libpmem library. Works on a namespace
 created in `fsdax` mode. Full example workload for generating traffic of
@@ -99,8 +100,7 @@ This engine is using libpmemblk library. Results delivered by this engine will
 not show you the best performance of your hardware, only what this specific
 library is capable of. While using this engine, `blocksize` and
 `size` of a file are given as part of `filename` option, like here:
-{% highlight ini %}
-[example]
+{% highlight bash %}
 filename=/mnt/pmem6/testjob,512,1024000
 #size=1024000M
 #bs=512
